@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ========== Theme Variables ========== */
+:root,
+[data-theme="dark"] {
+  --bg-primary: #0d0a14;
+  --bg-secondary: #1a1025;
+  --bg-header: rgba(17, 13, 26, 0.85);
+  --text-primary: #f0edf5;
+  --text-secondary: #b8b0c8;
+  --text-muted: #8a7fa0;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(26, 16, 37, 0.85);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --search-bg: rgba(255, 255, 255, 0.06);
+  --search-border: rgba(255, 255, 255, 0.12);
+  --search-text: #c8c0d8;
+  --nav-hover: rgba(255, 255, 255, 0.08);
+  --accent-purple: #c9a0ff;
+  --accent-pink: #e8a0c8;
+  --hero-badge-bg: rgba(200, 160, 255, 0.15);
+  --hero-badge-text: #c9a0ff;
+  --btn-primary-bg: #c9a0ff;
+  --btn-primary-text: #1a1025;
+  --btn-outline-border: rgba(200, 160, 255, 0.5);
+  --btn-outline-text: #e0d0f0;
+  --wallet-bg: rgba(255, 255, 255, 0.08);
+  --wallet-text: #e0d0f0;
+  --dropdown-bg: #1e1530;
+  --dropdown-hover: rgba(200, 160, 255, 0.1);
+  --section-heading: #f0edf5;
+  --section-card-bg: rgba(26, 16, 37, 0.7);
+  --section-card-border: rgba(200, 160, 255, 0.1);
+}
+
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f7fc;
+  --bg-header: #ffffff;
+  --text-primary: #1a1025;
+  --text-secondary: #4a4158;
+  --text-muted: #7a7088;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.06);
+  --search-bg: #f3f0f8;
+  --search-border: rgba(0, 0, 0, 0.1);
+  --search-text: #6a6078;
+  --nav-hover: rgba(0, 0, 0, 0.04);
+  --accent-purple: #7c3aed;
+  --accent-pink: #db2777;
+  --hero-badge-bg: rgba(124, 58, 237, 0.1);
+  --hero-badge-text: #7c3aed;
+  --btn-primary-bg: #c9a0ff;
+  --btn-primary-text: #1a1025;
+  --btn-outline-border: rgba(124, 58, 237, 0.3);
+  --btn-outline-text: #4a3070;
+  --wallet-bg: #f3f0f8;
+  --wallet-text: #4a3070;
+  --dropdown-bg: #ffffff;
+  --dropdown-hover: rgba(124, 58, 237, 0.06);
+  --section-heading: #1a1025;
+  --section-card-bg: #ffffff;
+  --section-card-border: rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: 'Poppins', Arial, Helvetica, sans-serif;
   --font-mono: Courier New, Courier, monospace;
 }
 
-
-
+/* ========== Base Styles ========== */
 body {
-  background: linear-gradient(359.88deg, #e2e4ff 1.49%, #fff5f5 48.78%, #ededed 92.44%);
-  color: var(--foreground);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Poppins', Arial, Helvetica, sans-serif;
-  color-scheme: light;
+  transition: background-color 0.4s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
 }
 
+/* ========== Scrollbar ========== */
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
@@ -29,6 +90,7 @@ body {
   scrollbar-width: none;
 }
 
+/* ========== Animations ========== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
@@ -37,3 +99,140 @@ body {
   animation: fadeIn 0.2s ease-out;
 }
 
+/* Chevron rotation on dropdown open */
+.chevron-icon {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+}
+
+.chevron-icon.open {
+  transform: rotate(180deg);
+}
+
+@keyframes scrollMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  gap: 1.25rem;
+  animation: scrollMarquee 25s linear infinite;
+  width: max-content;
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Star twinkle animation — subtle opacity pulse */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes twinkle-slow {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes twinkle-fast {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ========== Constellation / Star Field ========== */
+.star-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+}
+
+.star--sm {
+  width: 1px;
+  height: 1px;
+  animation: twinkle-slow 4s ease-in-out infinite;
+}
+
+.star--md {
+  width: 1.5px;
+  height: 1.5px;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.star--lg {
+  width: 2px;
+  height: 2px;
+  animation: twinkle-fast 5s ease-in-out infinite;
+}
+
+/* Constellation lines */
+.constellation-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 160, 255, 0.12), transparent);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+/* Subtle nebula glow spots */
+.nebula-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* ========== Theme Toggle Button ========== */
+.theme-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--wallet-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--nav-hover);
+  transform: scale(1.05);
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.4s ease;
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
+}

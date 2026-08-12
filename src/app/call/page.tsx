@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Filter, Phone, Star } from 'lucide-react';
-import { FaPhoneAlt } from 'react-icons/fa';
+import Link from 'next/link';
+import { Search, Filter, Star } from 'lucide-react';
 
 interface Astrologer {
   id: string;
@@ -71,7 +71,6 @@ const callAstrologersData: Astrologer[] = [
 export default function CallPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('All');
-  const [selectedAstro, setSelectedAstro] = useState<Astrologer | null>(null);
 
   const filteredAstrologers = callAstrologersData.filter((astro) => {
     const matchesSearch = astro.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -130,9 +129,10 @@ export default function CallPage() {
       {/* Astrologers Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAstrologers.map((astro) => (
-          <div
+          <Link
             key={astro.id}
-            className="bg-white border border-purple-100 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+            href={`/astrologer/${astro.id}`}
+            className="bg-white border border-purple-100 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:shadow-lg hover:scale-[1.01] transition-all duration-200 cursor-pointer block"
           >
             <div className="flex justify-between items-start gap-2">
               <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-slate-100 shadow-sm flex-shrink-0">
@@ -176,60 +176,13 @@ export default function CallPage() {
                 <span className="text-slate-400 font-normal">({astro.orders})</span>
               </div>
 
-              <button
-                onClick={() => setSelectedAstro(astro)}
-                className="bg-[#2ccb72] hover:bg-emerald-600 text-white font-bold px-5 py-2 rounded-full text-xs transition flex items-center gap-1.5 shadow-sm cursor-pointer"
-              >
-                <FaPhoneAlt className="w-3 h-3" /> Call Now
-              </button>
+              <span className="bg-[#2ccb72] text-white font-bold px-5 py-2 rounded-full text-xs flex items-center gap-1.5 shadow-sm">
+                View Profile
+              </span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
-
-      {/* Call Consultation Modal */}
-      {selectedAstro && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-6 animate-fadeIn">
-            <div className="flex justify-between items-start border-b border-purple-100 pb-4">
-              <div className="flex items-center gap-3">
-                <img src={selectedAstro.avatar} alt={selectedAstro.name} className="w-12 h-12 rounded-full object-cover border-2 border-[#2ccb72]" />
-                <div>
-                  <h3 className="font-extrabold text-lg text-slate-900">{selectedAstro.name}</h3>
-                  <p className="text-xs text-emerald-600 font-bold">₹{selectedAstro.price}/min • Audio Call</p>
-                </div>
-              </div>
-              <button onClick={() => setSelectedAstro(null)} className="text-slate-400 hover:text-slate-600 font-bold text-xl">✕</button>
-            </div>
-
-            <div className="space-y-4">
-              <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                You are about to initiate an instant phone call with <strong>{selectedAstro.name}</strong>.
-              </p>
-
-              <div className="bg-purple-50 p-4 rounded-2xl space-y-2 text-xs">
-                <div className="flex justify-between font-semibold text-slate-700">
-                  <span>Call Rate:</span>
-                  <span>₹{selectedAstro.price.toFixed(2)} / minute</span>
-                </div>
-                <div className="flex justify-between font-semibold text-slate-700">
-                  <span>Current Wallet Balance:</span>
-                  <span className="text-[#6b2cbd] font-bold">₹0.00</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex gap-3 pt-2">
-              <button onClick={() => setSelectedAstro(null)} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-full text-xs transition">
-                Cancel
-              </button>
-              <button className="flex-1 bg-[#2ccb72] hover:bg-emerald-600 text-white font-extrabold py-2.5 rounded-full text-xs shadow-md transition flex items-center justify-center gap-2">
-                <FaPhoneAlt className="w-3 h-3" /> Connect Call
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
