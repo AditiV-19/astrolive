@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTheme } from './ThemeProvider';
+import { Gift, X } from 'lucide-react';
 
 const navItems = [
   { label: 'Store', link: '/store', list: [] },
@@ -108,6 +109,9 @@ const navItems = [
   },
 ];
 
+// Segments for the Daily Spin wheel (clockwise from top)
+const WHEEL_SEGMENTS = ['Saturn', 'Mystery', 'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter'];
+
 // Sun icon for light mode
 function SunIcon() {
   return (
@@ -147,6 +151,31 @@ export default function Navbar() {
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
 
+  // Daily Spin state
+  const [isSpinnerOpen, setIsSpinnerOpen] = useState(false);
+  const [rotation, setRotation] = useState<number>(0);
+  const [isSpinning, setIsSpinning] = useState<boolean>(false);
+  const [prize, setPrize] = useState<string | null>(null);
+
+  const handleSpin = () => {
+    if (isSpinning) return;
+    setIsSpinning(true);
+    setPrize(null);
+
+    const targetSegmentIndex = Math.floor(Math.random() * WHEEL_SEGMENTS.length);
+    const segmentDegree = 360 / WHEEL_SEGMENTS.length;
+    const extraSpins = 360 * 5;
+    const targetDegree = 360 - (targetSegmentIndex * segmentDegree + segmentDegree / 2);
+    const totalRotation = rotation + extraSpins + (targetDegree - (rotation % 360));
+
+    setRotation(totalRotation);
+
+    setTimeout(() => {
+      setIsSpinning(false);
+      setPrize(WHEEL_SEGMENTS[targetSegmentIndex]);
+    }, 4000);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.innerHeight + window.scrollY;
@@ -184,6 +213,7 @@ export default function Navbar() {
   };
 
   return (
+    <>
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-500 ${headerHidden ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}
       style={{
@@ -321,6 +351,22 @@ export default function Navbar() {
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
+            </button>
+
+            {/* Daily Spin trigger - Golden Styled Button */}
+            <button
+              onClick={() => setIsSpinnerOpen(true)}
+              className="hidden sm:flex font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs transition items-center gap-1.5 cursor-pointer shadow-md hover:brightness-105"
+              style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #ffaa00 100%)',
+                color: '#3d2e11',
+                border: '1px solid #ffcc00',
+              }}
+              title="Spin for Daily Rewards"
+              aria-label="Daily Spin"
+            >
+              <Gift className="w-3.5 h-3.5 animate-pulse text-[#3d2e11]" />
+              <span className="hidden md:inline">Daily Spin</span>
             </button>
 
             {/* Theme Toggle */}
@@ -579,6 +625,23 @@ export default function Navbar() {
             height: 'calc(100vh - 60px)',
           }}
         >
+          {/* Golden Daily Spin trigger for mobile drawer */}
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              setIsSpinnerOpen(true);
+            }}
+            className="w-full flex items-center justify-center gap-2 font-bold text-sm uppercase py-3 rounded-full mb-2 cursor-pointer shadow-md"
+            style={{
+              background: 'linear-gradient(135deg, #ffd700 0%, #ffaa00 100%)',
+              color: '#3d2e11',
+              border: '1px solid #ffcc00',
+            }}
+          >
+            <Gift className="w-4 h-4 text-[#3d2e11]" />
+            Daily Spin
+          </button>
+
           {navItems.map((item, idx) => (
             <div key={idx} className="w-full border-b" style={{ borderColor: 'var(--border-color)' }}>
               <div className="flex items-center justify-between py-3">
@@ -633,5 +696,108 @@ export default function Navbar() {
         </div>
       )}
     </header>
+
+    {/* Daily Spin Modal — Warm yellowish blurred backdrop styling */}
+    {isSpinnerOpen && (
+      <div className="fixed inset-0 z-[10000] bg-[#3d2e11]/50 backdrop-blur-xl flex flex-col items-center justify-center p-4 transition-all duration-300">
+
+        {/* Close Button */}
+        <button
+          onClick={() => setIsSpinnerOpen(false)}
+          className="absolute top-6 right-6 p-2 text-amber-200/60 hover:text-amber-100 bg-amber-500/10 hover:bg-amber-500/20 rounded-full transition cursor-pointer z-50"
+        >
+          <X className="w-6 h-6" />
+        </button>
+
+        {/* Wheel Assembly */}
+        <div className="relative flex flex-col items-center mt-12 animate-in zoom-in-95 duration-300">
+
+          {/* The Glowing Top Indicator Triangle */}
+          <div className="absolute -top-3 z-30 drop-shadow-[0_0_12px_rgba(255,215,0,0.9)] flex flex-col items-center">
+            <div className="w-0 h-0 border-l-[16px] border-l-transparent border-r-[16px] border-r-transparent border-t-[28px] border-t-[#ffd700]" />
+          </div>
+
+          {/* The Rotating Wheel */}
+          <div
+            className="w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] rounded-full border-[8px] border-[#ffd700] bg-[#36290f] shadow-[0_0_50px_rgba(255,200,50,0.4)] relative overflow-hidden"
+            style={{
+              transform: `rotate(${rotation}deg)`,
+              transition: 'transform 4s cubic-bezier(0.33, 1, 0.68, 1)',
+              willChange: 'transform'
+            }}
+          >
+            {/* Lines & Text Labels */}
+            {WHEEL_SEGMENTS.map((seg, i) => {
+              const baseAngle = i * 45 + 22.5;
+
+              return (
+                <div key={seg}>
+                  {/* The vertical divider line anchored at center */}
+                  <div
+                    className="absolute top-0 left-1/2 w-[2px] h-[50%] bg-[#ffd700] origin-bottom -translate-x-1/2"
+                    style={{ transform: `rotate(${i * 45}deg)` }}
+                  />
+                  {/* The Segment Text */}
+                  <div 
+                    className="absolute top-1/2 left-1/2 origin-top flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
+                    style={{ 
+                      transform: `rotate(${baseAngle}deg) translateY(-90px)` 
+                    }}
+                  >
+                     <span className="text-[#ffd700] font-bold text-sm sm:text-lg tracking-wider transform -rotate-90 whitespace-nowrap drop-shadow-md select-none">
+                       {seg}
+                     </span>
+                  </div>
+                </div>
+              );
+            })}
+            
+            {/* Center Sunburst Pivot */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border-[3px] border-[#ffd700] bg-[#36290f] flex items-center justify-center z-20">
+               <div className="relative w-full h-full">
+                 {[0, 45, 90, 135].map(deg => (
+                   <div 
+                     key={deg} 
+                     className="absolute top-0 left-1/2 w-[2px] h-full bg-[#ffd700] -translate-x-1/2" 
+                     style={{ transform: `rotate(${deg}deg)` }} 
+                   />
+                 ))}
+                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-[#36290f] rounded-full" />
+               </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="flex flex-col items-center mt-8 z-10 h-32">
+          <button 
+            onClick={handleSpin}
+            disabled={isSpinning}
+            className="bg-amber-500/10 border-2 border-[#ffd700] hover:bg-[#ffd700]/30 text-[#ffd700] font-extrabold py-3.5 px-12 rounded-full transition-all uppercase tracking-widest shadow-[0_0_20px_rgba(255,215,0,0.3)] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
+            {isSpinning ? 'Consulting Stars...' : 'Spin the Wheel'}
+          </button>
+
+          {/* Testing Helper: Force Reset State */}
+          {isSpinning && (
+            <button 
+              onClick={() => { setIsSpinning(false); setPrize(null); }}
+              className="mt-3 text-xs text-amber-200/60 hover:text-amber-100 underline cursor-pointer"
+            >
+              Force Reset (For Testing)
+            </button>
+          )}
+
+          {prize && (
+            <div className="mt-6 text-[#ffd700] font-bold text-xl sm:text-2xl tracking-widest animate-fadeIn drop-shadow-[0_0_12px_rgba(255,215,0,0.9)] text-center">
+              🎉 YOU WON: {prize.toUpperCase()}
+            </div>
+          )}
+        </div>
+
+      </div>
+    )}
+    </>
   );
 }
