@@ -1,24 +1,46 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useTheme } from './ThemeProvider';
 
+// Simple deterministic pseudo-random generator based on index seed
+function pseudoRandom(seed: number) {
+  const x = Math.sin(seed + 1) * 10000;
+  return x - Math.floor(x);
+}
+
 function StarField() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const stars = useMemo(() => {
     const result = [];
     for (let i = 0; i < 180; i++) {
-      const size = Math.random() < 0.6 ? 'sm' : Math.random() < 0.8 ? 'md' : 'lg';
+      const r1 = pseudoRandom(i * 5 + 1);
+      const r2 = pseudoRandom(i * 5 + 2);
+      const r3 = pseudoRandom(i * 5 + 3);
+      const r4 = pseudoRandom(i * 5 + 4);
+      const r5 = pseudoRandom(i * 5 + 5);
+
+      const size = r1 < 0.6 ? 'sm' : r2 < 0.8 ? 'md' : 'lg';
       result.push({
         id: i,
         size,
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        delay: `${Math.random() * 6}s`,
-        duration: `${3 + Math.random() * 4}s`,
+        left: `${(r3 * 100).toFixed(2)}%`,
+        top: `${(r4 * 100).toFixed(2)}%`,
+        delay: `${(r5 * 6).toFixed(2)}s`,
+        duration: `${(3 + r1 * 4).toFixed(2)}s`,
       });
     }
     return result;
   }, []);
+
+  if (!mounted) {
+    return null; // Avoid rendering un-hydrated mismatch on server vs client
+  }
 
   return (
     <div className="star-field" style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
@@ -117,3 +139,4 @@ export default function GlobalBackground() {
 
   return <StarField />;
 }
+

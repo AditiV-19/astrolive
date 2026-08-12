@@ -17,6 +17,11 @@ export const ZodiacWheel: React.FC<ZodiacWheelProps> = ({
   setIsPaused,
 }) => {
   const [hoveredSignId, setHoveredSignId] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Geometry Constants for SVG rendering
   const outerRadius = 270;
@@ -24,12 +29,12 @@ export const ZodiacWheel: React.FC<ZodiacWheelProps> = ({
   const numSectors = 12;
   const angleStep = 360 / numSectors; // 30 degrees per sector
 
-  // Helper to convert polar coordinates to Cartesian (degrees to radians, rotated -90deg so 0 starts at top)
+  // Helper to convert polar coordinates to Cartesian with fixed precision to avoid SSR float discrepancies
   const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
     const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
     return {
-      x: centerX + radius * Math.cos(angleInRadians),
-      y: centerY + radius * Math.sin(angleInRadians),
+      x: Number((centerX + radius * Math.cos(angleInRadians)).toFixed(4)),
+      y: Number((centerY + radius * Math.sin(angleInRadians)).toFixed(4)),
     };
   };
 
@@ -58,8 +63,16 @@ export const ZodiacWheel: React.FC<ZodiacWheelProps> = ({
     ].join(' ');
   };
 
+  if (!mounted) {
+    return (
+      <div className="relative flex items-center justify-center p-4 min-h-[340px] sm:min-h-[460px] md:min-h-[580px]">
+        <div className="w-16 h-16 rounded-full border-2 border-amber-500/40 border-t-amber-400 animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div className="relative flex items-center justify-center p-4 select-none">
+    <div className="relative flex items-center justify-center p-4 select-none" suppressHydrationWarning>
       {/* Outer Glow Halo */}
       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-500/10 via-purple-500/10 to-blue-500/10 blur-3xl pointer-events-none" />
 
@@ -69,6 +82,7 @@ export const ZodiacWheel: React.FC<ZodiacWheelProps> = ({
         <svg
           viewBox="-300 -300 600 600"
           className="w-full h-full drop-shadow-[0_0_35px_rgba(245,158,11,0.2)]"
+          suppressHydrationWarning
         >
           <defs>
             {/* Sector Fill Gradients */}
