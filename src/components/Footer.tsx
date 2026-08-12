@@ -4,20 +4,26 @@ import React from 'react';
 import Link from 'next/link';
 import { MessageCircleMore } from 'lucide-react';
 import { FaPhoneAlt } from 'react-icons/fa';
+import { useTheme } from './ThemeProvider';
 
 export default function Footer() {
+  const { theme } = useTheme();
+
   return (
     <footer
+      className="w-full pt-12 pb-8"
       style={{
-        background: 'linear-gradient(145.78deg, #b18bfd 13.8%, #6846eb 93.2%)',
-        fontFamily: 'Poppins, sans-serif',
+        background: theme === 'dark' ? 'transparent' : '#ffffff',
+        color: theme === 'dark' ? '#ffffff' : '#1a1025',
+        borderTop: theme === 'dark' ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
       }}
-      className="w-full mt-16 pt-12 pb-8 text-white"
     >
-      <div className="max-w-[1440px] w-[90%] lg:w-[75%] mx-auto space-y-10">
+      <div className="max-w-[1440px] w-[90%] lg:w-[85%] mx-auto space-y-10">
+
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 pb-12 border-b border-white">
-          {/* Column 1: Logo & Buttons */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 pb-10" style={{ borderBottom: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}` }}>
+
+          {/* Column 1: Logo, Buttons, Socials */}
           <div className="lg:col-span-2 space-y-6">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <img
@@ -25,7 +31,7 @@ export default function Footer() {
                 alt="Astro"
                 className="w-9 h-9 object-contain"
               />
-              <span className="font-extrabold text-2xl tracking-wide text-white">
+              <span className="font-extrabold text-2xl tracking-wide" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
                 ASTROLIVE
               </span>
             </Link>
@@ -33,7 +39,8 @@ export default function Footer() {
             <div className="space-y-4 pt-2">
               <Link
                 href="/chat"
-                className="h-[60px] min-w-[280px] max-w-[360px] w-full bg-white text-slate-900 font-extrabold px-6 rounded-[40px] text-xs shadow-md hover:bg-slate-50 transition flex items-center justify-between cursor-pointer"
+                className="h-[60px] min-w-[280px] max-w-[360px] w-full font-extrabold px-6 rounded-[40px] text-xs shadow-md hover:bg-slate-50 transition flex items-center justify-between cursor-pointer"
+                style={{ background: '#fff', color: '#1a1025' }}
               >
                 <div className="flex items-center gap-2">
                   <MessageCircleMore className="w-5 h-5 text-[#f26d85]" />
@@ -46,7 +53,8 @@ export default function Footer() {
 
               <Link
                 href="/call"
-                className="h-[60px] min-w-[280px] max-w-[360px] w-full bg-white text-slate-900 font-extrabold px-6 rounded-[40px] text-xs shadow-md hover:bg-slate-50 transition flex items-center justify-between cursor-pointer"
+                className="h-[60px] min-w-[280px] max-w-[360px] w-full font-extrabold px-6 rounded-[40px] text-xs shadow-md hover:bg-slate-50 transition flex items-center justify-between cursor-pointer"
+                style={{ background: '#fff', color: '#1a1025' }}
               >
                 <div className="flex items-center gap-2">
                   <FaPhoneAlt className="w-4 h-4 text-[#f26d85]" />
@@ -57,92 +65,162 @@ export default function Footer() {
                 </span>
               </Link>
             </div>
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-3 pt-2">
+              <a href="https://www.instagram.com/astrolive_future" target="_blank" rel="noreferrer">
+                <img src="/instagram.svg" alt="instagram" className="w-9 h-9 hover:scale-110 transition cursor-pointer" />
+              </a>
+              <a href="mailto:help@astrolive.app" target="_blank" rel="noreferrer">
+                <img src="/mail.svg" alt="email" className="w-9 h-9 hover:scale-110 transition cursor-pointer" />
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61552253798986" target="_blank" rel="noreferrer">
+                <img src="/facebook.svg" alt="facebook" className="w-9 h-9 hover:scale-110 transition cursor-pointer" />
+              </a>
+            </div>
           </div>
 
-          {/* Column 2: HOME */}
+          {/* Column 2: Horoscope */}
           <div className="space-y-3">
-            <h4 className="font-bold text-base lg:text-lg uppercase text-white leading-loose">
-              HOME
+            <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              Horoscope
             </h4>
-            <ul className="space-y-2 text-xs lg:text-sm text-white font-normal">
-              <li className="relative flex items-center gap-2 cursor-pointer hover:underline">
-                <Link href="/pooja">Book a Pooja</Link>
-                <span
-                  style={{
-                    background: 'linear-gradient(125.75deg, #ffa767 -8.85%, #eb468b 90.19%)',
-                  }}
-                  className="text-white text-[9px] px-2 py-0.5 rounded-full font-medium capitalize"
-                >
-                  New
-                </span>
-              </li>
-              <li className="cursor-pointer hover:underline"><Link href="/panchang">Today’s Panchang</Link></li>
-              <li className="cursor-pointer hover:underline"><Link href="/kundli-matching">Kundli’s Match</Link></li>
+            <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=today">Today&apos;s Horoscope</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=yesterday">Yesterday&apos;s Horoscope</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=tomorrow">Tomorrow&apos;s Horoscope</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=monthly">Monthly Horoscope</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=yearly">Yearly Horoscope</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=chinese">Chinese Horoscope</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 3: Kundli & Reports */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              Kundli & Reports
+            </h4>
+            <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
               <li className="cursor-pointer hover:underline"><Link href="/free-kundli">Free Kundli</Link></li>
-              <li className="cursor-pointer hover:underline"><Link href="/love-calculator">Love Calculator</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/kundli-matching">Kundli Matching</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/free-reports?report=kaalsarp">Kaalsarp Yoga/Dosha</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/free-reports?report=gemstone">Gemstones Report</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/free-reports?report=mangal">Mangal Dosha Report</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/free-reports?report=varshphal">Varshphal</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/free-reports?report=sadesati">Sade Sati Report</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/free-reports?report=pitra">Pitra Dosha Report</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/free-reports?report=numerology">Numerology Report</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/free-reports?report=partner">Partner Report</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Pooja & Remedies */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              Pooja & Remedies
+            </h4>
+            <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
+              <li className="cursor-pointer hover:underline"><Link href="/pooja">Book a Pooja</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/healing">Healing</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/healing?tab=fengshui">Feng Shui</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/healing?tab=reiki">Reiki Healing</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/healing?tab=meditation">Meditation</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/healing?tab=yoga">Yoga</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/healing?tab=crystal">Crystal Therapy</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/healing?tab=ayurveda">Ayurveda</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Second Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 pb-10" style={{ borderBottom: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}` }}>
+
+          {/* Explore */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              Explore
+            </h4>
+            <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
+              <li className="cursor-pointer hover:underline"><Link href="/store">Store</Link></li>
               <li className="cursor-pointer hover:underline"><Link href="/blog">Blog</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/live">Live Sessions</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/wallet">Wallet</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: HOROSCOPE */}
+          {/* Panchang */}
           <div className="space-y-3">
-            <h4 className="font-bold text-base lg:text-lg uppercase text-white leading-loose">
-              HOROSCOPE
+            <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              Panchang
             </h4>
-            <ul className="space-y-2 text-xs lg:text-sm text-white font-normal">
-              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=today">Daily HOROSCOPE</Link></li>
-              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=monthly">Monthly HOROSCOPE</Link></li>
-              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=yearly">Yearly HOROSCOPE</Link></li>
+            <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
+              <li className="cursor-pointer hover:underline"><Link href="/panchang">Today&apos;s Panchang</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/panchang?tab=calendar">Indian Calendar</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/panchang?tab=hora">Hora Calculator</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/panchang?tab=choghadiya">Choghadiya</Link></li>
             </ul>
           </div>
 
-          {/* Column 4: LIVE ASTROLOGY */}
+          {/* Occult */}
           <div className="space-y-3">
-            <h4 className="font-bold text-base lg:text-lg uppercase text-white leading-loose">
-              LIVE ASTROLOGY
+            <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              Occult
             </h4>
-            <ul className="space-y-2 text-xs lg:text-sm text-white font-normal">
-              <li className="cursor-pointer hover:underline"><Link href="/live">live session</Link></li>
-              <li className="cursor-pointer hover:underline"><Link href="/call">Video Call</Link></li>
+            <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=palmistry">Palmistry</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=tarot">Tarot Reading</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=numerology">Numerology</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=vastu">Vastu</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=chinese">Chinese Astrology</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=nadi">Nadi Astrology</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=nakshatra">Nakshatra</Link></li>
+            </ul>
+          </div>
+
+          {/* Astrology */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              Astrology
+            </h4>
+            <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=planets">Planets</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=houses">Houses</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=lalkitab">Lal Kitab</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/occult?tab=kp">KP System</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=compatibility">Zodiac Compatibility</Link></li>
+            </ul>
+          </div>
+
+          {/* Calculators */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              Calculators
+            </h4>
+            <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
+              <li className="cursor-pointer hover:underline"><Link href="/love-calculator">Love Calculator</Link></li>
+              <li className="cursor-pointer hover:underline"><Link href="/love-calculator?tab=friendship">Friendship Calculator</Link></li>
             </ul>
           </div>
         </div>
 
-        {/* Copyright */}
-        <p className="text-center font-medium text-white text-sm lg:text-base tracking-[2px] pt-4">
-          @2026 Tech4Billion Media Pvt. Ltd. All Rights Reserved
-        </p>
-
-        {/* Policy Links */}
-        <div className="flex flex-wrap items-center justify-center text-xs lg:text-sm text-white font-normal gap-2 tracking-wider">
-          <Link href="/blog" className="cursor-pointer hover:underline">Privacy Policy</Link>
-          <span className="px-1">|</span>
-          <Link href="/blog" className="cursor-pointer hover:underline">Refund Policy</Link>
-          <span className="px-1">|</span>
-          <Link href="/blog" className="cursor-pointer hover:underline">Terms and Conditions</Link>
-          <span className="px-1">|</span>
-          <Link href="/blog" className="cursor-pointer hover:underline">About Us</Link>
-          <span className="px-1">|</span>
-          <Link href="/blog" className="cursor-pointer hover:underline">Contact Us</Link>
-        </div>
-
-        {/* Address */}
-        <div className="text-center text-[11px] lg:text-xs text-white/90 font-normal space-y-1">
-          <p>GST Number: 29AAHCT9333P1ZF</p>
-          <p>Address: 62/63 The Pavilion, WeWork The Pavilion, Church Street, Bangalore, Karnataka, 560001</p>
-        </div>
-
-        {/* Social Icons */}
-        <div className="flex items-center justify-center gap-3 pt-2">
-          <a href="https://www.instagram.com/astrolive_future" target="_blank" rel="noreferrer">
-            <img src="/instagram.svg" alt="instagram" className="w-10 h-10 hover:scale-110 transition cursor-pointer" />
-          </a>
-          <a href="mailto:help@astrolive.app" target="_blank" rel="noreferrer">
-            <img src="/mail.svg" alt="email" className="w-10 h-10 hover:scale-110 transition cursor-pointer" />
-          </a>
-          <a href="https://www.facebook.com/profile.php?id=61552253798986" target="_blank" rel="noreferrer">
-            <img src="/facebook.svg" alt="facebook" className="w-10 h-10 hover:scale-110 transition cursor-pointer" />
-          </a>
+        {/* Bottom Section */}
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-4 pt-0">
+          <div className="space-y-2">
+            <p className="text-xs lg:text-sm font-medium" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.5)' : 'rgba(26,16,37,0.5)' }}>
+              @2026 Tech4Billion Media Pvt. Ltd. All Rights Reserved
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.6)' : 'rgba(26,16,37,0.6)' }}>
+            <Link href="/blog" className="hover:underline">Privacy Policy</Link>
+            <span>|</span>
+            <Link href="/blog" className="hover:underline">Refund Policy</Link>
+            <span>|</span>
+            <Link href="/blog" className="hover:underline">Terms and Conditions</Link>
+            <span>|</span>
+            <Link href="/blog" className="hover:underline">About Us</Link>
+            <span>|</span>
+            <Link href="/blog" className="hover:underline">Contact Us</Link>
+          </div>
         </div>
       </div>
     </footer>
