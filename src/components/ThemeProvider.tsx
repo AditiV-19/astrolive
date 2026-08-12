@@ -24,7 +24,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     const stored = localStorage.getItem('astrolive-theme') as Theme | null;
-    const initial = stored || 'dark';
+    const initial = stored || 'light';
     setTheme(initial);
     document.documentElement.setAttribute('data-theme', initial);
     setMounted(true);

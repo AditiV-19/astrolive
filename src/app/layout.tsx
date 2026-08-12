@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
 import LanguageProvider from "@/components/LanguageProvider";
 import GlobalBackground from "@/components/GlobalBackground";
+import LayoutShell from "@/components/LayoutShell";
 
 export const metadata: Metadata = {
   title: "Astro Live - Talk to Astrologers",
@@ -29,9 +28,7 @@ export default function RootLayout({
           <ThemeProvider>
             <GlobalBackground />
             <div className="relative" style={{ zIndex: 1 }}>
-              <Navbar />
-              <main className="flex-1">{children}</main>
-              <Footer />
+              <LayoutShell>{children}</LayoutShell>
             </div>
           </ThemeProvider>
         </LanguageProvider>

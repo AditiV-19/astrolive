@@ -225,18 +225,18 @@ export default function Navbar() {
       }}
     >
       {/* Top Header Row */}
-      <div className="w-full px-4 md:px-6 lg:px-10 py-3 md:py-4">
-        <div className="flex items-center justify-between gap-3 md:gap-5">
+      <div className="w-full px-3 md:px-5 lg:px-8 py-2 md:py-2.5">
+        <div className="flex items-center justify-between gap-2 md:gap-4">
           
           {/* Logo & Hamburguer menu button for mobile */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-1.5 rounded-lg text-primary focus:outline-none"
               style={{ color: 'var(--text-primary)' }}
               aria-label="Toggle menu"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 {mobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -245,14 +245,14 @@ export default function Navbar() {
               </svg>
             </button>
 
-            <Link href="/" className="flex items-center gap-2 md:gap-3 cursor-pointer">
+            <Link href="/" className="flex items-center gap-1.5 md:gap-2 cursor-pointer">
               <img
                 src="https://media.chingari.io/apipublic/chingari-web-assets/images/astro/astro-icon.png"
                 alt="Logo"
-                className="w-8 h-8 md:w-11 h-11 object-contain"
+                className="w-6 h-6 md:w-9 md:h-9 object-contain"
               />
               <span
-                className="font-extrabold text-lg md:text-2xl tracking-wide notranslate"
+                className="font-extrabold text-base md:text-xl tracking-wide notranslate"
                 style={{ color: 'var(--text-primary)' }}
               >
                 AstroLive
@@ -261,7 +261,7 @@ export default function Navbar() {
           </div>
 
           {/* Search Bar (Desktop only) */}
-          <div className="hidden lg:flex flex-1 mx-4 lg:mx-8 relative">
+          <div className="hidden lg:flex flex-1 mx-3 lg:mx-6 relative">
             <div
               className="relative flex items-center w-full rounded-full overflow-hidden transition-all duration-300"
               style={{
@@ -274,7 +274,7 @@ export default function Navbar() {
                 style={{ color: 'var(--text-muted)' }}
                 onClick={handleSearchSubmit}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
@@ -291,7 +291,7 @@ export default function Navbar() {
                     handleSearchSubmit();
                   }
                 }}
-                className="w-full py-3 pr-4 bg-transparent text-base font-medium outline-none placeholder:font-normal"
+                className="w-full py-2 pr-3 bg-transparent text-sm font-medium outline-none placeholder:font-normal"
                 style={{ color: 'var(--text-primary)' }}
               />
             </div>
@@ -336,7 +336,7 @@ export default function Navbar() {
           </div>
 
           {/* Right Action Icons (Adapts to mobile widths) */}
-          <div className="flex items-center gap-1.5 md:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
             {/* Search Icon Trigger for Mobile */}
             <button
               onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
@@ -348,7 +348,7 @@ export default function Navbar() {
               }}
               aria-label="Toggle mobile search"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
@@ -357,7 +357,7 @@ export default function Navbar() {
             {/* Daily Spin trigger - Golden Styled Button */}
             <button
               onClick={() => setIsSpinnerOpen(true)}
-              className="hidden sm:flex font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs transition items-center gap-1.5 cursor-pointer shadow-md hover:brightness-105"
+              className="hidden sm:flex font-bold px-2.5 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] transition items-center gap-1 cursor-pointer shadow-md hover:brightness-105"
               style={{
                 background: 'linear-gradient(135deg, #ffd700 0%, #ffaa00 100%)',
                 color: '#3d2e11',
@@ -366,7 +366,7 @@ export default function Navbar() {
               title="Spin for Daily Rewards"
               aria-label="Daily Spin"
             >
-              <Gift className="w-3.5 h-3.5 animate-pulse text-[#3d2e11]" />
+              <Gift className="w-3 h-3 animate-pulse text-[#3d2e11]" />
               <span className="hidden md:inline">{t('nav.daily_spin', 'Daily Spin')}</span>
             </button>
 
@@ -376,7 +376,7 @@ export default function Navbar() {
               className="theme-toggle flex items-center justify-center rounded-full"
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              style={{ width: 38, height: 38 }}
+              style={{ width: 30, height: 30 }}
             >
               {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
             </button>
@@ -386,7 +386,7 @@ export default function Navbar() {
               <button
                 onClick={() => setShowLangDropdown(!showLangDropdown)}
                 onBlur={() => setTimeout(() => setShowLangDropdown(false), 200)}
-                className="font-bold px-3 py-1.5 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm transition flex items-center gap-1.5 cursor-pointer"
+                className="font-bold px-2.5 py-1 md:px-4 md:py-2 rounded-full text-[10px] md:text-xs transition flex items-center gap-1 cursor-pointer"
                 style={{
                   background: 'var(--wallet-bg)',
                   color: 'var(--wallet-text)',
@@ -435,7 +435,7 @@ export default function Navbar() {
 
             {/* Notification bell */}
             <button
-              className="relative flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full transition cursor-pointer"
+              className="relative flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full transition cursor-pointer"
               style={{
                 background: 'var(--wallet-bg)',
                 color: 'var(--text-primary)',
@@ -443,7 +443,7 @@ export default function Navbar() {
               }}
               aria-label="Notifications"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
               </svg>
@@ -452,7 +452,7 @@ export default function Navbar() {
 
             {/* User avatar */}
             <button
-              className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full transition cursor-pointer overflow-hidden"
+              className="flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full transition cursor-pointer overflow-hidden"
               style={{
                 background: 'var(--accent-purple)',
                 color: 'var(--bg-primary)',
@@ -460,7 +460,7 @@ export default function Navbar() {
               }}
               aria-label="User profile"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
               </svg>
             </button>
@@ -508,7 +508,7 @@ export default function Navbar() {
 
       {/* Bottom Row: Navigation Links (Desktop view) */}
       <nav
-        className="hidden lg:block w-full px-6 lg:px-10"
+        className="hidden lg:block w-full px-5 lg:px-8"
         style={{ borderTop: '1px solid var(--border-color)' }}
       >
         <div className="flex items-center gap-0 flex-nowrap w-full">
@@ -520,7 +520,7 @@ export default function Navbar() {
               onMouseLeave={() => setActiveDropdown(null)}
             >
               <div
-                className="px-3.5 py-3 cursor-pointer text-sm font-semibold tracking-wide uppercase flex items-center gap-1 flex-shrink-0"
+                className="px-2.5 py-2 cursor-pointer text-xs font-semibold tracking-wide uppercase flex items-center gap-1 flex-shrink-0"
                 style={{ color: 'var(--text-primary)' }}
                 onClick={() => router.push(item.link)}
               >

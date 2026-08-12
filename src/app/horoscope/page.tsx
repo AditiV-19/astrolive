@@ -56,22 +56,22 @@ export default function HoroscopePage() {
         }`}
       >
         {/* Header Navigation Bar */}
-        <header className="pt-8 pb-4 px-6 text-center max-w-4xl mx-auto">
+        <header className="pt-6 pb-3 px-5 text-center max-w-4xl mx-auto">
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-300 to-amber-500 pb-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-300 to-amber-500 pb-1.5">
             Daily Zodiac Forecast
           </h1>
-          <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto mt-2 leading-relaxed">
+          <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto mt-1.5 leading-relaxed">
             Click on any sector of the rotating wheel to pop out its constellation and unlock your detailed daily horoscope reading.
           </p>
 
           {/* Quick Sign Selector Ribbon */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 max-w-2xl mx-auto">
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 max-w-2xl mx-auto">
             {ZODIAC_SIGNS.map((sign) => (
               <button
                 key={sign.id}
                 onClick={() => handleSelectSign(sign)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 border cursor-pointer ${
+                className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium transition-all flex items-center gap-1 border cursor-pointer ${
                   selectedSign?.id === sign.id
                     ? `${sign.themeColor} scale-105 shadow-md`
                     : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-amber-500/40 hover:text-amber-200'
