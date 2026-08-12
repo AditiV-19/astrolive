@@ -236,3 +236,48 @@ body {
 .theme-toggle:hover svg {
   transform: rotate(15deg);
 }
+
+/* Hide Google Translate top bar and elements completely */
+.skiptranslate {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+}
+body {
+  top: 0px !important;
+  position: static !important;
+}
+.goog-te-menu-value {
+  display: none !important;
+}
+.goog-te-gadget {
+  display: none !important;
+}
+#google_translate_element {
+  display: none !important;
+}
+#goog-gt-tt {
+  display: none !important;
+  visibility: hidden !important;
+}
+.goog-te-balloon-frame {
+  display: none !important;
+}
+.goog-tooltip {
+  display: none !important;
+}
+.goog-tooltip:hover {
+  display: none !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+

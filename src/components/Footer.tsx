@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { MessageCircleMore } from 'lucide-react';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { useTheme } from './ThemeProvider';
+import { useLanguage } from './LanguageProvider';
 
 export default function Footer() {
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   return (
     <footer
@@ -31,7 +33,7 @@ export default function Footer() {
                 alt="Astro"
                 className="w-9 h-9 object-contain"
               />
-              <span className="font-extrabold text-2xl tracking-wide" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
+              <span className="font-extrabold text-2xl tracking-wide notranslate" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
                 ASTROLIVE
               </span>
             </Link>
@@ -44,7 +46,7 @@ export default function Footer() {
               >
                 <div className="flex items-center gap-2">
                   <MessageCircleMore className="w-5 h-5 text-[#f26d85]" />
-                  <span>Chat With <span className="text-[#f26d85]">Astrologer</span></span>
+                  <span>{t('nav.chat_with_astrologer', 'Chat with Astrologer')}</span>
                 </div>
                 <span className="text-[#f26d85] font-bold text-xs flex items-center gap-1">
                   (<img src="/rupee-icon-orange.svg" alt="rupee" className="w-3.5 h-3.5" /> 10/min)
@@ -58,7 +60,7 @@ export default function Footer() {
               >
                 <div className="flex items-center gap-2">
                   <FaPhoneAlt className="w-4 h-4 text-[#f26d85]" />
-                  <span>Talk to <span className="text-[#f26d85]">Astrologer</span></span>
+                  <span>{t('nav.talk_to_astrologer', 'Talk to Astrologer')}</span>
                 </div>
                 <span className="text-[#f26d85] font-bold text-xs flex items-center gap-1">
                   (<img src="/rupee-icon-orange.svg" alt="rupee" className="w-3.5 h-3.5" /> 15/min)
@@ -83,7 +85,7 @@ export default function Footer() {
           {/* Column 2: Horoscope */}
           <div className="space-y-3">
             <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
-              Horoscope
+              {t('nav.horoscope', 'Horoscope')}
             </h4>
             <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
               <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=today">Today&apos;s Horoscope</Link></li>
@@ -98,7 +100,7 @@ export default function Footer() {
           {/* Column 3: Kundli & Reports */}
           <div className="space-y-3">
             <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
-              Kundli & Reports
+              {t('nav.kundli_reports', 'Kundli & Reports')}
             </h4>
             <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
               <li className="cursor-pointer hover:underline"><Link href="/free-kundli">Free Kundli</Link></li>
@@ -117,7 +119,7 @@ export default function Footer() {
           {/* Column 4: Pooja & Remedies */}
           <div className="space-y-3">
             <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
-              Pooja & Remedies
+              {t('nav.pooja_remedies', 'Pooja & Remedies')}
             </h4>
             <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
               <li className="cursor-pointer hover:underline"><Link href="/pooja">Book a Pooja</Link></li>
@@ -138,7 +140,7 @@ export default function Footer() {
           {/* Explore */}
           <div className="space-y-3">
             <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
-              Explore
+              {t('nav.explore', 'Explore')}
             </h4>
             <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
               <li className="cursor-pointer hover:underline"><Link href="/store">Store</Link></li>
@@ -151,7 +153,7 @@ export default function Footer() {
           {/* Panchang */}
           <div className="space-y-3">
             <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
-              Panchang
+              {t('nav.panchang', 'Panchang')}
             </h4>
             <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
               <li className="cursor-pointer hover:underline"><Link href="/panchang">Today&apos;s Panchang</Link></li>
@@ -164,7 +166,7 @@ export default function Footer() {
           {/* Occult */}
           <div className="space-y-3">
             <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
-              Occult
+              {t('nav.occult', 'Occult')}
             </h4>
             <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
               <li className="cursor-pointer hover:underline"><Link href="/occult?tab=palmistry">Palmistry</Link></li>
@@ -180,7 +182,7 @@ export default function Footer() {
           {/* Astrology */}
           <div className="space-y-3">
             <h4 className="font-bold text-sm uppercase" style={{ color: theme === 'dark' ? '#fff' : '#1a1025' }}>
-              Astrology
+              {t('nav.astrology', 'Astrology')}
             </h4>
             <ul className="space-y-2 text-xs lg:text-sm" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(26,16,37,0.7)' }}>
               <li className="cursor-pointer hover:underline"><Link href="/horoscope?tab=planets">Planets</Link></li>

@@ -145,32 +145,32 @@ export default function CallPage() {
                   {astro.skills.map((s, i) => (
                     <span
                       key={i}
-                      className="bg-purple-50 text-[#6b2cbd] text-[9px] font-bold px-2 py-0.5 rounded-full"
+                      className="bg-purple-50 text-[#6b2cbd] text-[9px] font-bold px-2 py-0.5 rounded-full notranslate"
                     >
                       {s}
                     </span>
                   ))}
                 </div>
-                <span className="bg-[#c2a3f0] text-purple-950 font-bold text-xs px-3 py-1 rounded-full">
+                <span className="bg-[#c2a3f0] text-purple-950 font-bold text-xs px-3 py-1 rounded-full notranslate">
                   ₹{astro.price.toFixed(2)}/min
                 </span>
               </div>
             </div>
 
             <div className="mt-4 space-y-1.5">
-              <h3 className="font-extrabold text-lg text-slate-800 flex items-center gap-1.5">
+              <h3 className="font-extrabold text-lg text-slate-800 flex items-center gap-1.5 notranslate">
                 {astro.name} <span className="text-[#f26d85] text-sm">♀</span>
               </h3>
-              <p className="text-xs text-slate-500 font-medium flex items-center gap-1">
+              <p className="text-xs text-slate-500 font-medium flex items-center gap-1 notranslate">
                 <span>🗣</span> {astro.languages.join(', ')}
               </p>
-              <p className="text-xs text-slate-500 font-medium flex items-center gap-1">
+              <p className="text-xs text-slate-500 font-medium flex items-center gap-1 notranslate">
                 <span>🎓</span> {astro.exp} Years Experience
               </p>
             </div>
 
             <div className="pt-4 mt-3 border-t border-purple-100 flex items-center justify-between">
-              <div className="flex items-center gap-1 text-amber-500 font-bold text-xs">
+              <div className="flex items-center gap-1 text-amber-500 font-bold text-xs notranslate">
                 <Star className="w-3.5 h-3.5 fill-amber-400" />
                 <span>{astro.rating}</span>
                 <span className="text-slate-400 font-normal">({astro.orders})</span>

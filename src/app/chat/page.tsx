@@ -192,33 +192,33 @@ export default function ChatPage() {
                 </span>
                 <div className="flex items-center text-amber-400 text-xs font-bold gap-0.5">
                   <Star className="w-3 h-3 fill-amber-400" />
-                  <span>{astro.rating}</span>
+                  <span className="notranslate">{astro.rating}</span>
                 </div>
               </div>
 
               <div className="flex-1 space-y-1.5">
-                <h3 className="font-extrabold text-lg text-slate-800">{astro.name}</h3>
+                <h3 className="font-extrabold text-lg text-slate-800 notranslate">{astro.name}</h3>
                 <div className="flex flex-wrap gap-1">
                   {astro.skills.map((skill, i) => (
                     <span
                       key={i}
-                      className="bg-orange-100 text-orange-700 text-[9px] font-bold px-2 py-0.5 rounded-md"
+                      className="bg-orange-100 text-orange-700 text-[9px] font-bold px-2 py-0.5 rounded-md notranslate"
                     >
                       {skill}
                     </span>
                   ))}
                 </div>
-                <p className="text-xs text-slate-500 font-medium">
+                <p className="text-xs text-slate-500 font-medium notranslate">
                   🗣 {astro.languages.join(', ')}
                 </p>
-                <p className="text-xs font-semibold text-slate-600">
+                <p className="text-xs font-semibold text-slate-600 notranslate">
                   🎓 Exp: {astro.exp} Yrs | 📦 {astro.orders} Consultations
                 </p>
               </div>
             </div>
 
             <div className="flex items-center justify-between pt-4 mt-3 border-t border-purple-100">
-              <span className="bg-[#b3e2d5] text-emerald-900 text-xs font-extrabold px-3 py-1.5 rounded-full">
+              <span className="bg-[#b3e2d5] text-emerald-900 text-xs font-extrabold px-3 py-1.5 rounded-full notranslate">
                 ₹{astro.price} / min
               </span>
               <span className="bg-[#6b2cbd] text-white font-bold px-6 py-1.5 rounded-full text-xs flex items-center gap-1.5 shadow-sm">

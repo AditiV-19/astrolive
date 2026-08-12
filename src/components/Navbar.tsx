@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTheme } from './ThemeProvider';
+import { useLanguage, Language } from './LanguageProvider';
 import { Gift, X } from 'lucide-react';
 
 const navItems = [
@@ -146,7 +147,7 @@ export default function Navbar() {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [mobileActiveSub, setMobileActiveSub] = useState<string | null>(null);
   const [headerHidden, setHeaderHidden] = useState(false);
-  const [currentLang, setCurrentLang] = useState('English');
+  const { language: currentLang, setLanguage: setCurrentLang, t } = useLanguage();
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
@@ -251,7 +252,7 @@ export default function Navbar() {
                 className="w-8 h-8 md:w-11 h-11 object-contain"
               />
               <span
-                className="font-extrabold text-lg md:text-2xl tracking-wide"
+                className="font-extrabold text-lg md:text-2xl tracking-wide notranslate"
                 style={{ color: 'var(--text-primary)' }}
               >
                 AstroLive
@@ -280,7 +281,7 @@ export default function Navbar() {
               </div>
               <input
                 type="text"
-                placeholder="Search astrologers, horoscope, kundli..."
+                placeholder={t('nav.search_placeholder', 'Search astrologers, horoscope, kundli...')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setShowSearchDropdown(true)}
@@ -366,7 +367,7 @@ export default function Navbar() {
               aria-label="Daily Spin"
             >
               <Gift className="w-3.5 h-3.5 animate-pulse text-[#3d2e11]" />
-              <span className="hidden md:inline">Daily Spin</span>
+              <span className="hidden md:inline">{t('nav.daily_spin', 'Daily Spin')}</span>
             </button>
 
             {/* Theme Toggle */}
@@ -410,7 +411,7 @@ export default function Navbar() {
                     <button
                       key={lang}
                       onClick={() => {
-                        setCurrentLang(lang);
+                        setCurrentLang(lang as Language);
                         setShowLangDropdown(false);
                       }}
                       className="w-full text-left px-4 py-2 text-xs font-semibold cursor-pointer transition"
@@ -489,7 +490,7 @@ export default function Navbar() {
             </div>
             <input
               type="text"
-              placeholder="Search astrologers, horoscope..."
+              placeholder={t('nav.search_placeholder', 'Search astrologers, horoscope...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => {
@@ -510,7 +511,7 @@ export default function Navbar() {
         className="hidden lg:block w-full px-6 lg:px-10"
         style={{ borderTop: '1px solid var(--border-color)' }}
       >
-        <div className="flex items-center gap-0">
+        <div className="flex items-center gap-0 flex-nowrap w-full">
           {navItems.map((item, idx) => (
             <div
               key={idx}
@@ -519,11 +520,11 @@ export default function Navbar() {
               onMouseLeave={() => setActiveDropdown(null)}
             >
               <div
-                className="px-3.5 py-3 cursor-pointer text-sm font-semibold tracking-wide uppercase flex items-center gap-1"
+                className="px-3.5 py-3 cursor-pointer text-sm font-semibold tracking-wide uppercase flex items-center gap-1 flex-shrink-0"
                 style={{ color: 'var(--text-primary)' }}
                 onClick={() => router.push(item.link)}
               >
-                {item.label}
+                {t('nav.' + item.label.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_'), item.label)}
                 {item.list.length > 0 && (
                   <span className={`chevron-icon transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
@@ -563,7 +564,7 @@ export default function Navbar() {
                             }}
                             onClick={() => setActiveDropdown(null)}
                           >
-                            {subItem.name}
+                            {t('nav.' + subItem.name.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_'), subItem.name)}
                           </Link>
                         ))}
                       </div>
@@ -582,7 +583,7 @@ export default function Navbar() {
                             }}
                             onClick={() => setActiveDropdown(null)}
                           >
-                            {subItem.name}
+                            {t('nav.' + subItem.name.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_'), subItem.name)}
                           </Link>
                         ))}
                       </div>
@@ -602,7 +603,7 @@ export default function Navbar() {
                         }}
                         onClick={() => setActiveDropdown(null)}
                       >
-                        {subItem.name}
+                        {t('nav.' + subItem.name.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_'), subItem.name)}
                       </Link>
                     ))
                   )}
@@ -639,7 +640,7 @@ export default function Navbar() {
             }}
           >
             <Gift className="w-4 h-4 text-[#3d2e11]" />
-            Daily Spin
+            {t('nav.daily_spin', 'Daily Spin')}
           </button>
 
           {navItems.map((item, idx) => (
@@ -651,7 +652,7 @@ export default function Navbar() {
                   style={{ color: 'var(--text-primary)' }}
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {item.label}
+                  {t('nav.' + item.label.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_'), item.label)}
                 </Link>
                 {item.list.length > 0 && (
                   <button
@@ -686,7 +687,7 @@ export default function Navbar() {
                       style={{ color: 'var(--text-secondary)' }}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      • {sub.name}
+                      • {t('nav.' + sub.name.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_'), sub.name)}
                     </Link>
                   ))}
                 </div>

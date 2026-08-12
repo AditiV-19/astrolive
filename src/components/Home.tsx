@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { MessageCircleMore } from 'lucide-react';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { useTheme } from './ThemeProvider';
+import { useLanguage } from './LanguageProvider';
 
 // Card Data Interfaces
 interface ChatAstrologer {
@@ -223,6 +224,7 @@ const testimonials: Testimonial[] = [
 
 // ========== Avatar Stack ==========
 function AvatarStack() {
+  const { t } = useLanguage();
   const avatars = [
     'https://media.chingari.io/apipublic/uploads/profilePic/26db47d6-13aa-40ee-b5a1-9299924cae9d.jpg',
     'https://media.chingari.io/apipublic/uploads/profilePic/0509b3e0-9221-467f-a007-3fb26bb36dcd.png',
@@ -243,7 +245,7 @@ function AvatarStack() {
         ))}
       </div>
       <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
-        <span className="font-bold" style={{ color: 'var(--accent-purple)' }}>450+</span> astrologers online
+        <span className="font-bold" style={{ color: 'var(--accent-purple)' }}>450+</span> {t('hero.online_count', 'astrologers online')}
       </span>
     </div>
   );
@@ -252,6 +254,7 @@ function AvatarStack() {
 export default function Home() {
   const clientCarouselRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const scrollClients = (direction: 'left' | 'right') => {
     if (clientCarouselRef.current) {
@@ -288,7 +291,7 @@ export default function Home() {
                   borderColor: theme === 'dark' ? 'rgba(200,160,255,0.2)' : 'rgba(124,58,237,0.2)',
                 }}
               >
-                Premium Consultation
+                {t('hero.badge', 'Premium Consultation')}
               </span>
             </div>
 
@@ -301,7 +304,7 @@ export default function Home() {
                 fontWeight: 700,
               }}
             >
-              Talk to a real astrologer — your first consultation{' '}
+              {t('hero.heading_1', 'Talk to a real astrologer — your first consultation ')}{' '}
               <em
                 style={{
                   color: 'var(--accent-purple)',
@@ -309,7 +312,7 @@ export default function Home() {
                   fontWeight: 800,
                 }}
               >
-                free
+                {t('hero.heading_free', 'free')}
               </em>{' '}
             </h1>
 
@@ -323,23 +326,23 @@ export default function Home() {
                 border: theme === 'dark' ? '1px solid rgba(200,160,255,0.2)' : '1px solid rgba(124,58,237,0.15)',
               }}
             >
-              <span className="text-sm font-semibold" style={{ color: 'var(--text-muted)' }}>Transparent pricing</span>
+              <span className="text-sm font-semibold" style={{ color: 'var(--text-muted)' }}>{t('hero.pricing_subtext', 'Transparent pricing')}</span>
               <span className="w-px h-5" style={{ background: 'var(--border-color)' }} />
               <span
-                className="text-base font-extrabold"
+                className="text-base font-extrabold notranslate"
                 style={{ color: 'var(--accent-purple)' }}
               >
                 ₹10/min
               </span>
-              <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>chat</span>
+              <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{t('hero.chat', 'chat')}</span>
               <span className="w-px h-5" style={{ background: 'var(--border-color)' }} />
               <span
-                className="text-base font-extrabold"
+                className="text-base font-extrabold notranslate"
                 style={{ color: 'var(--accent-pink)' }}
               >
                 ₹15/min
               </span>
-              <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>call</span>
+              <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{t('hero.call', 'call')}</span>
             </div>
 
             {/* CTA Buttons */}
@@ -353,7 +356,7 @@ export default function Home() {
                 }}
               >
                 <MessageCircleMore size={20} />
-                Chat now
+                {t('hero.chat_now', 'Chat now')}
               </Link>
 
               <Link
@@ -366,7 +369,7 @@ export default function Home() {
                 }}
               >
                 <FaPhoneAlt size={16} />
-                Talk now
+                {t('hero.call_now', 'Talk now')}
               </Link>
             </div>
 
@@ -415,7 +418,7 @@ export default function Home() {
             className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide uppercase text-center"
             style={{ color: 'var(--section-heading)' }}
           >
-            Our Services
+            {t('nav.store', 'Our Services') /* fallback to Store/Services key */}
           </h2>
         </div>
       </section>
@@ -428,12 +431,12 @@ export default function Home() {
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {[
-              { title: 'Daily Horoscope', icon: '✨', bg: 'bg-gradient-to-br from-[#8050cb] to-[#592b9b]', link: '/horoscope?tab=today' },
-              { title: "Today's Panchang", icon: '🪐', bg: 'bg-gradient-to-br from-[#0c8299] to-[#085a6b]', link: '/panchang' },
-              { title: "Kundli's Match", icon: '💍', bg: 'bg-gradient-to-br from-[#883d3b] to-[#602725]', link: '/kundli-matching' },
-              { title: 'Free Kundli', icon: '📜', bg: 'bg-gradient-to-br from-[#3b3a61] to-[#252443]', link: '/free-kundli' },
-              { title: 'Love Calculator', icon: '💖', bg: 'bg-gradient-to-br from-[#a3521b] to-[#71350e]', link: '/love-calculator' },
-              { title: 'Wallet', icon: '👛', bg: 'bg-gradient-to-br from-[#77339d] to-[#4e1b6c]', link: '/wallet' },
+              { title: t('nav.horoscope', 'Daily Horoscope'), icon: '✨', bg: 'bg-gradient-to-br from-[#8050cb] to-[#592b9b]', link: '/horoscope?tab=today' },
+              { title: t('nav.panchang', "Today's Panchang"), icon: '🪐', bg: 'bg-gradient-to-br from-[#0c8299] to-[#085a6b]', link: '/panchang' },
+              { title: t('nav.kundli_matching', "Kundli's Match"), icon: '💍', bg: 'bg-gradient-to-br from-[#883d3b] to-[#602725]', link: '/kundli-matching' },
+              { title: t('nav.free_kundli', 'Free Kundli'), icon: '📜', bg: 'bg-gradient-to-br from-[#3b3a61] to-[#252443]', link: '/free-kundli' },
+              { title: t('nav.love_calculator', 'Love Calculator'), icon: '💖', bg: 'bg-gradient-to-br from-[#a3521b] to-[#71350e]', link: '/love-calculator' },
+              { title: t('nav.wallet', 'Wallet'), icon: '👛', bg: 'bg-gradient-to-br from-[#77339d] to-[#4e1b6c]', link: '/wallet' },
             ].map((item, index) => (
               <Link
                 key={index}
@@ -460,7 +463,7 @@ export default function Home() {
               className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide uppercase text-center"
               style={{ color: 'var(--section-heading)' }}
             >
-              CHAT WITH ASTROLOGERS
+              {t('nav.chat_with_astrologer', 'Chat With Astrologers').toUpperCase()}
             </h2>
             <Link
               href="/chat"
@@ -497,28 +500,28 @@ export default function Home() {
                   </div>
 
                   <div className="flex-1 space-y-1">
-                    <h3 className="font-extrabold text-base" style={{ color: 'var(--text-primary)' }}>{astro.name}</h3>
+                    <h3 className="font-extrabold text-base notranslate" style={{ color: 'var(--text-primary)' }}>{astro.name}</h3>
                     <div className="flex flex-wrap gap-1">
                       {astro.skills.map((skill, i) => (
                         <span
                           key={i}
-                          className="bg-orange-100 text-orange-700 text-[9px] font-bold px-1.5 py-0.5 rounded"
+                          className="bg-orange-100 text-orange-700 text-[9px] font-bold px-1.5 py-0.5 rounded notranslate"
                         >
                           {skill}
                         </span>
                       ))}
                     </div>
-                    <p className="text-[10px] font-medium pt-0.5" style={{ color: 'var(--text-muted)' }}>
+                    <p className="text-[10px] font-medium pt-0.5 notranslate" style={{ color: 'var(--text-muted)' }}>
                       {astro.languages.join(', ')}
                     </p>
-                    <p className="text-[10px] font-semibold" style={{ color: 'var(--text-secondary)' }}>
+                    <p className="text-[10px] font-semibold notranslate" style={{ color: 'var(--text-secondary)' }}>
                       Exp: {astro.exp} Yrs
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between pt-3 mt-2" style={{ borderTop: '1px solid var(--section-card-border)' }}>
-                  <span className="bg-[#b3e2d5] text-emerald-900 text-[10px] font-bold px-2.5 py-1 rounded-full">
+                  <span className="bg-[#b3e2d5] text-emerald-900 text-[10px] font-bold px-2.5 py-1 rounded-full notranslate">
                     ₹{astro.price} / min
                   </span>
                   <span
@@ -580,27 +583,27 @@ export default function Home() {
                         {astro.skills.map((s, i) => (
                           <span
                             key={i}
-                            className="text-[9px] font-bold px-2 py-0.5 rounded-full"
+                            className="text-[9px] font-bold px-2 py-0.5 rounded-full notranslate"
                             style={{ background: 'var(--search-bg)', color: 'var(--text-secondary)' }}
                           >
                             {s}
                           </span>
                         ))}
                       </div>
-                      <span className="font-bold text-xs px-3 py-1 rounded-full" style={{ background: 'var(--accent-purple)', color: theme === 'dark' ? '#1a1025' : '#fff' }}>
+                      <span className="font-bold text-xs px-3 py-1 rounded-full notranslate" style={{ background: 'var(--accent-purple)', color: theme === 'dark' ? '#1a1025' : '#fff' }}>
                         ₹{astro.price.toFixed(2)}/min
                       </span>
                     </div>
                   </div>
 
                   <div className="mt-4 space-y-1">
-                    <h3 className="font-extrabold text-lg flex items-center gap-1.5" style={{ color: 'var(--text-primary)' }}>
+                    <h3 className="font-extrabold text-lg flex items-center gap-1.5 notranslate" style={{ color: 'var(--text-primary)' }}>
                       {astro.name} <span className="text-[#f26d85] text-sm">♀</span>
                     </h3>
-                    <p className="text-xs font-medium flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
+                    <p className="text-xs font-medium flex items-center gap-1 notranslate" style={{ color: 'var(--text-muted)' }}>
                       <span>🗣</span> {astro.languages.join(', ')}
                     </p>
-                    <p className="text-xs font-medium flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
+                    <p className="text-xs font-medium flex items-center gap-1 notranslate" style={{ color: 'var(--text-muted)' }}>
                       <span>🎓</span> {astro.exp} Years Experience
                     </p>
                   </div>
@@ -807,7 +810,7 @@ export default function Home() {
                   </div>
 
                   <div className="pt-3" style={{ borderTop: '1px solid var(--section-card-border)' }}>
-                    <h4 className="font-extrabold text-sm" style={{ color: 'var(--text-primary)' }}>{client.name}</h4>
+                    <h4 className="font-extrabold text-sm notranslate" style={{ color: 'var(--text-primary)' }}>{client.name}</h4>
                     <p className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{client.location}</p>
                   </div>
                 </div>

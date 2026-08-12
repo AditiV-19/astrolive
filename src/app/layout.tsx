@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
+import LanguageProvider from "@/components/LanguageProvider";
 import GlobalBackground from "@/components/GlobalBackground";
 
 export const metadata: Metadata = {
@@ -24,15 +25,18 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-sans" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
-        <ThemeProvider>
-          <GlobalBackground />
-          <div className="relative" style={{ zIndex: 1 }}>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <GlobalBackground />
+            <div className="relative" style={{ zIndex: 1 }}>
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
 }
+

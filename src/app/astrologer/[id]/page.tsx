@@ -32,7 +32,7 @@ function AnimatedNumber({ value, suffix = '', decimals = 0 }: { value: number; s
     return () => cancelAnimationFrame(animationFrameId);
   }, [value]);
 
-  return <span>{current.toFixed(decimals)}{suffix}</span>;
+  return <span className="notranslate">{current.toFixed(decimals)}{suffix}</span>;
 }
 
 export default function AstrologerProfilePage() {
@@ -203,7 +203,7 @@ export default function AstrologerProfilePage() {
 
                 <div className="flex-1 space-y-2">
                   <div className="flex flex-wrap items-center gap-3">
-                    <h1 className="text-2xl sm:text-3xl font-extrabold" style={{ color: 'var(--text-primary)', fontFamily: "'Playfair Display', Georgia, serif" }}>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold notranslate" style={{ color: 'var(--text-primary)', fontFamily: "'Playfair Display', Georgia, serif" }}>
                       {astro.name}
                     </h1>
                     {astro.verified && (
@@ -228,15 +228,15 @@ export default function AstrologerProfilePage() {
                   </div>
                   
                   {/* Specialization in Purple Theme Color */}
-                  <p className="text-sm font-bold" style={{ color: 'var(--accent-purple)' }}>
+                  <p className="text-sm font-bold notranslate" style={{ color: 'var(--accent-purple)' }}>
                     {astro.skills.join(' · ')}
                   </p>
 
                   <div className="flex flex-wrap gap-2 pt-1">
-                    <span className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full" style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', color: 'var(--text-secondary)' }}>
+                    <span className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full notranslate" style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', color: 'var(--text-secondary)' }}>
                       🌐 {astro.languages.join(' · ')}
                     </span>
-                    <span className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full" style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', color: 'var(--text-secondary)' }}>
+                    <span className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full notranslate" style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', color: 'var(--text-secondary)' }}>
                       <Zap className="w-3 h-3 text-amber-400" /> Avg reply {astro.avgReply}
                     </span>
                   </div>
