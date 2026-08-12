@@ -1,152 +1,286 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Sparkles, Heart, Briefcase, Activity, DollarSign, Star } from 'lucide-react';
-
-const zodiacSigns = [
-  { sign: 'Aries', symbol: '♈', dates: 'Mar 21 - Apr 19', color: 'bg-red-50 text-red-600 border-red-200' },
-  { sign: 'Taurus', symbol: '♉', dates: 'Apr 20 - May 20', color: 'bg-emerald-50 text-emerald-600 border-emerald-200' },
-  { sign: 'Gemini', symbol: '♊', dates: 'May 21 - Jun 20', color: 'bg-amber-50 text-amber-600 border-amber-200' },
-  { sign: 'Cancer', symbol: '♋', dates: 'Jun 21 - Jul 22', color: 'bg-indigo-50 text-indigo-600 border-indigo-200' },
-  { sign: 'Leo', symbol: '♌', dates: 'Jul 23 - Aug 22', color: 'bg-orange-50 text-orange-600 border-orange-200' },
-  { sign: 'Virgo', symbol: '♍', dates: 'Aug 23 - Sep 22', color: 'bg-[#f7f2fb] text-[#6b2cbd] border-purple-200' },
-  { sign: 'Libra', symbol: '♎', dates: 'Sep 23 - Oct 22', color: 'bg-pink-50 text-pink-600 border-pink-200' },
-  { sign: 'Scorpio', symbol: '♏', dates: 'Oct 23 - Nov 21', color: 'bg-[#260e2e]/5 text-purple-900 border-purple-300' },
-  { sign: 'Sagittarius', symbol: '♐', dates: 'Nov 22 - Dec 21', color: 'bg-blue-50 text-blue-600 border-blue-200' },
-  { sign: 'Capricorn', symbol: '♑', dates: 'Dec 22 - Jan 19', color: 'bg-slate-100 text-slate-700 border-slate-300' },
-  { sign: 'Aquarius', symbol: '♒', dates: 'Jan 20 - Feb 18', color: 'bg-cyan-50 text-cyan-600 border-cyan-200' },
-  { sign: 'Pisces', symbol: '♓', dates: 'Feb 19 - Mar 20', color: 'bg-teal-50 text-teal-600 border-teal-200' },
-];
+import React, { useState, useEffect } from 'react';
+import { ZODIAC_SIGNS, ZodiacSign } from '@/lib/zodiacData';
+import { ZodiacWheel } from '@/components/ZodiacWheel';
 
 export default function HoroscopePage() {
-  const [activeTab, setActiveTab] = useState<'today' | 'yesterday' | 'tomorrow' | 'monthly' | 'yearly'>('today');
-  const [selectedSign, setSelectedSign] = useState<typeof zodiacSigns[0] | null>(zodiacSigns[4]); // Leo default
+  const [selectedSign, setSelectedSign] = useState<ZodiacSign | null>(null);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<'overview' | 'love' | 'career' | 'health'>('overview');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Handle Sector Click
+  const handleSelectSign = (sign: ZodiacSign) => {
+    setSelectedSign(sign);
+    setIsPaused(true);
+    setActiveTab('overview');
+  };
+
+  const handleClose = () => {
+    setSelectedSign(null);
+    setIsPaused(false);
+  };
+
+  // Keyboard shortcut: ESC to close drawer
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedSign) {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedSign]);
+
+  // Filtered signs for quick search
+  const filteredSigns = ZODIAC_SIGNS.filter((sign) =>
+    sign.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    sign.element.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="max-w-[1440px] w-[90%] lg:w-[75%] mx-auto py-8 space-y-8">
-      {/* Banner */}
-      <div className="bg-gradient-to-r from-[#9282eb] via-[#ac83f1] to-[#ba8af8] rounded-3xl p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="space-y-3">
-          <span className="bg-white/20 text-white text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-            Celestial Guidance & Horoscope
-          </span>
-          <h1 className="text-2xl sm:text-4xl font-black uppercase tracking-wide">
-            Free Daily & Yearly Horoscope
+    <main className="min-h-screen bg-slate-950 text-slate-100 font-sans relative overflow-x-hidden flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
+      
+      {/* Background Subtle Stars & Glowing Orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute top-[-10%] left-[10%] w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-purple-900/15 rounded-full blur-[140px]" />
+        <div className="absolute top-[40%] right-[30%] w-[400px] h-[400px] bg-indigo-900/10 rounded-full blur-[120px]" />
+      </div>
+
+      {/* MAIN CONTAINER - BLURS OUT WHEN A HOROSCOPE SECTOR IS CLICKED */}
+      <div
+        className={`relative z-10 flex-1 flex flex-col transition-all duration-700 ease-in-out ${
+          selectedSign ? 'blur-md brightness-50 scale-[0.99] pointer-events-none' : 'blur-0 opacity-100'
+        }`}
+      >
+        {/* Header Navigation Bar */}
+        <header className="pt-8 pb-4 px-6 text-center max-w-4xl mx-auto">
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-300 to-amber-500 pb-2">
+            Daily Zodiac Forecast
           </h1>
-          <p className="text-xs sm:text-sm text-white/90 font-medium max-w-xl">
-            Select your Zodiac sign to get accurate predictions on Love, Career, Finances, and Health.
+          <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto mt-2 leading-relaxed">
+            Click on any sector of the rotating wheel to pop out its constellation and unlock your detailed daily horoscope reading.
           </p>
-        </div>
-      </div>
 
-      {/* Horoscope Timeline Tabs */}
-      <div className="flex justify-center border-b border-purple-200 gap-2 sm:gap-6 text-xs sm:text-sm font-bold overflow-x-auto scrollbar-none">
-        {[
-          { id: 'today', label: "Today's Horoscope" },
-          { id: 'yesterday', label: "Yesterday's" },
-          { id: 'tomorrow', label: "Tomorrow's" },
-          { id: 'monthly', label: 'Monthly' },
-          { id: 'yearly', label: 'Yearly 2026' },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={`pb-3 uppercase tracking-wider border-b-2 transition cursor-pointer flex-shrink-0 ${
-              activeTab === tab.id
-                ? 'border-[#6b2cbd] text-[#6b2cbd] font-black'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* 12 Zodiac Signs Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        {zodiacSigns.map((item) => (
-          <div
-            key={item.sign}
-            onClick={() => setSelectedSign(item)}
-            className={`p-4 rounded-3xl border text-center cursor-pointer transition shadow-sm flex flex-col items-center justify-between h-36 ${item.color} ${
-              selectedSign?.sign === item.sign ? 'ring-2 ring-[#6b2cbd] shadow-md scale-105' : 'hover:scale-102'
-            }`}
-          >
-            <span className="text-4xl font-black">{item.symbol}</span>
-            <div>
-              <h3 className="font-extrabold text-sm text-slate-900">{item.sign}</h3>
-              <p className="text-[10px] text-slate-500 font-semibold">{item.dates}</p>
-            </div>
+          {/* Quick Sign Selector Ribbon */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 max-w-2xl mx-auto">
+            {ZODIAC_SIGNS.map((sign) => (
+              <button
+                key={sign.id}
+                onClick={() => handleSelectSign(sign)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 border cursor-pointer ${
+                  selectedSign?.id === sign.id
+                    ? `${sign.themeColor} scale-105 shadow-md`
+                    : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-amber-500/40 hover:text-amber-200'
+                }`}
+              >
+                <span>{sign.symbol}</span>
+                <span>{sign.name}</span>
+              </button>
+            ))}
           </div>
-        ))}
+        </header>
+
+        {/* Central Interactive Wheel Stage */}
+        <section className="flex-1 flex flex-col items-center justify-center my-6 relative min-h-[420px] sm:min-h-[550px]">
+          <ZodiacWheel
+            selectedSignId={selectedSign?.id || null}
+            onSelectSign={handleSelectSign}
+            isPaused={isPaused}
+            setIsPaused={setIsPaused}
+          />
+        </section>
+
+        {/* Page Footer */}
+        <footer className="py-6 text-center text-xs text-slate-500 border-t border-slate-900">
+          <p>© AstroLive Daily Celestial Forecast • Crafted with Precision</p>
+        </footer>
       </div>
 
-      {/* Selected Sign Predictions View */}
+      {/* RIGHT-SIDE SLIDING HOROSCOPE DRAWER & BACKDROP OVERLAY */}
       {selectedSign && (
-        <div className="bg-white border border-purple-100 rounded-3xl p-6 sm:p-8 shadow-md space-y-6 animate-fadeIn">
-          <div className="flex flex-col sm:flex-row items-center justify-between border-b border-purple-100 pb-4 gap-4">
-            <div className="flex items-center gap-3 text-center sm:text-left">
-              <span className="text-5xl">{selectedSign.symbol}</span>
-              <div>
-                <h2 className="text-2xl font-black text-slate-900 uppercase">
-                  {selectedSign.sign} Horoscope ({activeTab})
-                </h2>
-                <p className="text-xs text-purple-700 font-bold">{selectedSign.dates}</p>
+        <div className="fixed inset-0 z-50 flex justify-end">
+          {/* Backdrop Click Overlay */}
+          <div
+            className="absolute inset-0 bg-slate-950/70 backdrop-blur-md animate-fadeIn transition-opacity duration-500"
+            onClick={handleClose}
+          />
+
+          {/* Right-Side Panel Drawer */}
+          <aside className="relative w-full max-w-xl h-full bg-slate-950/95 border-l border-amber-500/30 p-6 sm:p-8 md:p-10 shadow-[0_0_80px_rgba(245,158,11,0.2)] flex flex-col justify-between overflow-y-auto z-10 animate-slideInRight">
+            
+            {/* Top Close Bar */}
+            <div>
+              <div className="flex items-center justify-between pb-6 border-b border-slate-800">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-14 h-14 rounded-2xl border-2 ${selectedSign.themeColor} flex items-center justify-center text-3xl shadow-lg`}
+                  >
+                    {selectedSign.symbol}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono uppercase tracking-widest text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+                        {selectedSign.element} • {selectedSign.modality}
+                      </span>
+                    </div>
+                    <h2 className="text-3xl font-extrabold text-white mt-1">{selectedSign.name}</h2>
+                    <p className="text-xs text-slate-400 font-mono mt-0.5">{selectedSign.dates}</p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleClose}
+                  className="w-11 h-11 rounded-full bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-amber-300 flex items-center justify-center text-lg transition-all hover:rotate-90 cursor-pointer shrink-0"
+                  aria-label="Close horoscope drawer"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Motto Banner */}
+              <div className="mt-6 p-4 rounded-xl bg-slate-900/90 border border-amber-500/20 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase font-mono text-slate-400 tracking-wider">Astrological Motto</span>
+                  <p className="text-lg font-serif font-bold text-amber-300 tracking-wide">"{selectedSign.motto}"</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] uppercase font-mono text-slate-400 tracking-wider">Ruler</span>
+                  <p className="text-sm font-semibold text-slate-200">
+                    {selectedSign.rulerSymbol} {selectedSign.rulerName}
+                  </p>
+                </div>
+              </div>
+
+              {/* Navigation Tabs */}
+              <div className="flex border-b border-slate-800 mt-6 gap-2">
+                {[
+                  { id: 'overview', label: 'Overview', icon: '✨' },
+                  { id: 'love', label: 'Love', icon: '💖' },
+                  { id: 'career', label: 'Career', icon: '💼' },
+                  { id: 'health', label: 'Health', icon: '🌿' },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as any)}
+                    className={`pb-3 px-3 text-sm font-medium transition-all flex items-center gap-1.5 border-b-2 cursor-pointer ${
+                      activeTab === tab.id
+                        ? 'border-amber-400 text-amber-300 font-bold'
+                        : 'border-transparent text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    <span>{tab.icon}</span>
+                    <span>{tab.label}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Tab Content Display */}
+              <div className="py-6 text-slate-200 leading-relaxed font-sans min-h-[160px]">
+                {activeTab === 'overview' && (
+                  <div className="space-y-4 animate-fadeIn">
+                    <p className="text-base sm:text-lg text-slate-100 font-medium leading-relaxed">
+                      {selectedSign.horoscope.overview}
+                    </p>
+                    <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs sm:text-sm flex items-start gap-2">
+                      <span className="text-base shrink-0">💡</span>
+                      <span><strong>Cosmic Tip:</strong> {selectedSign.horoscope.cosmicTip}</span>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'love' && (
+                  <div className="space-y-3 animate-fadeIn">
+                    <h4 className="text-xs uppercase font-mono text-pink-400 tracking-wider">Heart & Relationships</h4>
+                    <p className="text-slate-200 leading-relaxed text-base">
+                      {selectedSign.horoscope.love}
+                    </p>
+                    <div className="mt-4 p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+                      <span>Most Compatible Today:</span>
+                      <span className="font-bold text-slate-200">{selectedSign.compatibleSign}</span>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'career' && (
+                  <div className="space-y-3 animate-fadeIn">
+                    <h4 className="text-xs uppercase font-mono text-amber-400 tracking-wider">Work & Finances</h4>
+                    <p className="text-slate-200 leading-relaxed text-base">
+                      {selectedSign.horoscope.career}
+                    </p>
+                  </div>
+                )}
+
+                {activeTab === 'health' && (
+                  <div className="space-y-3 animate-fadeIn">
+                    <h4 className="text-xs uppercase font-mono text-emerald-400 tracking-wider">Vitality & Well-being</h4>
+                    <p className="text-slate-200 leading-relaxed text-base">
+                      {selectedSign.horoscope.health}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Astrological House & Specs Summary Grid */}
+              <div className="grid grid-cols-3 gap-3 p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-center text-xs">
+                <div>
+                  <span className="text-slate-500 block mb-1 font-mono text-[10px] uppercase">Lucky Color</span>
+                  <span className="font-bold text-amber-300">{selectedSign.luckyColor}</span>
+                </div>
+                <div className="border-x border-slate-800">
+                  <span className="text-slate-500 block mb-1 font-mono text-[10px] uppercase">Lucky Number</span>
+                  <span className="font-extrabold text-lg text-amber-400">{selectedSign.luckyNumber}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block mb-1 font-mono text-[10px] uppercase">Astrological House</span>
+                  <span className="font-bold text-slate-300">{selectedSign.house.split(' ')[0]}</span>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 bg-purple-50 p-3 rounded-2xl text-xs font-bold">
-              <div>
-                <span className="text-slate-500 block">Lucky Number:</span>
-                <span className="text-[#6b2cbd] font-black text-sm">7</span>
-              </div>
-              <div className="border-l border-purple-200 pl-3">
-                <span className="text-slate-500 block">Lucky Color:</span>
-                <span className="text-purple-900 font-black text-sm">Royal Purple</span>
-              </div>
+            {/* Drawer Action Footer */}
+            <div className="mt-8 pt-6 border-t border-slate-800 flex items-center gap-4">
+              <button
+                onClick={handleClose}
+                className="flex-1 py-3.5 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-bold rounded-xl transition-all shadow-lg hover:shadow-amber-500/20 text-sm cursor-pointer"
+              >
+                Close & Resume Spin
+              </button>
             </div>
-          </div>
-
-          {/* Predictions Categorized */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
-            <div className="p-5 bg-rose-50/60 border border-rose-100 rounded-2xl space-y-2">
-              <h4 className="font-extrabold text-sm text-rose-800 flex items-center gap-2">
-                <Heart className="w-4 h-4 text-rose-600 fill-rose-600" /> Love & Relationship
-              </h4>
-              <p className="text-slate-700 font-medium">
-                Venus aligns favorably today, encouraging open communication with your partner. Singles might receive a surprising text from someone special.
-              </p>
-            </div>
-
-            <div className="p-5 bg-blue-50/60 border border-blue-100 rounded-2xl space-y-2">
-              <h4 className="font-extrabold text-sm text-blue-800 flex items-center gap-2">
-                <Briefcase className="w-4 h-4 text-blue-600" /> Career & Business
-              </h4>
-              <p className="text-slate-700 font-medium">
-                Your dedication to ongoing projects will catch the attention of senior leadership. Perfect day to propose innovative ideas.
-              </p>
-            </div>
-
-            <div className="p-5 bg-emerald-50/60 border border-emerald-100 rounded-2xl space-y-2">
-              <h4 className="font-extrabold text-sm text-emerald-800 flex items-center gap-2">
-                <DollarSign className="w-4 h-4 text-emerald-600" /> Wealth & Finances
-              </h4>
-              <p className="text-slate-700 font-medium">
-                Financial stability improves today. A past investment is likely to yield unexpected gains. Avoid speculative trading.
-              </p>
-            </div>
-
-            <div className="p-5 bg-amber-50/60 border border-amber-100 rounded-2xl space-y-2">
-              <h4 className="font-extrabold text-sm text-amber-800 flex items-center gap-2">
-                <Activity className="w-4 h-4 text-amber-600" /> Health & Energy
-              </h4>
-              <p className="text-slate-700 font-medium">
-                Energy levels remain high. Maintaining proper hydration and a light evening walk will help relieve accumulated stress.
-              </p>
-            </div>
-          </div>
+          </aside>
         </div>
       )}
-    </div>
+
+      {/* Animation keyframes */}
+      <style jsx global>{`
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .animate-slideInRight {
+          animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+      `}</style>
+    </main>
   );
 }
