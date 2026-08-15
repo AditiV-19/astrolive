@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+export const dynamic = 'force-dynamic';
+
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { notFound, useSearchParams } from 'next/navigation';
 import { Star, Shield, Award, Sparkles, ShoppingBag, Heart, CheckCircle2, ChevronRight, HelpCircle, ShieldAlert } from 'lucide-react';
 import { STORE_PRODUCTS, COMBO_DEALS } from '@/lib/storeData';
 
-export default function ProductDetailPage() {
+function ProductDetailContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
@@ -344,5 +346,17 @@ export default function ProductDetailPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function ProductDetailPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center text-white font-semibold">
+        Loading product details...
+      </div>
+    }>
+      <ProductDetailContent />
+    </Suspense>
   );
 }
