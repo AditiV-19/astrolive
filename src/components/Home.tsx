@@ -429,12 +429,14 @@ export default function Home() {
         style={{ background: 'transparent' }}
       >
         <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-8 gap-3">
             {[
               { title: t('nav.horoscope', 'Daily Horoscope'), icon: '✨', bg: 'bg-gradient-to-br from-[#8050cb] to-[#592b9b]', link: '/horoscope?tab=today' },
               { title: t('nav.panchang', "Today's Panchang"), icon: '🪐', bg: 'bg-gradient-to-br from-[#0c8299] to-[#085a6b]', link: '/panchang' },
               { title: t('nav.kundli_matching', "Kundli's Match"), icon: '💍', bg: 'bg-gradient-to-br from-[#883d3b] to-[#602725]', link: '/kundli-matching' },
               { title: t('nav.free_kundli', 'Free Kundli'), icon: '📜', bg: 'bg-gradient-to-br from-[#3b3a61] to-[#252443]', link: '/free-kundli' },
+              { title: t('nav.ai_assistant', 'AI Assistant'), icon: '🤖', bg: 'bg-gradient-to-br from-[#2ccb72] to-[#1a9a52]', link: '/chat/assistant' },
+              { title: t('nav.dashboard', 'My Dashboard'), icon: '📊', bg: 'bg-gradient-to-br from-[#f26d85] to-[#c74c63]', link: '/dashboard' },
               { title: t('nav.love_calculator', 'Love Calculator'), icon: '💖', bg: 'bg-gradient-to-br from-[#a3521b] to-[#71350e]', link: '/love-calculator' },
               { title: t('nav.wallet', 'Wallet'), icon: '👛', bg: 'bg-gradient-to-br from-[#77339d] to-[#4e1b6c]', link: '/wallet' },
             ].map((item, index) => (

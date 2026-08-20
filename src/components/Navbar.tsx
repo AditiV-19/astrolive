@@ -16,6 +16,7 @@ const navItems = [
       { name: 'Chat with Astrologer', link: '/chat' },
       { name: 'Call an Astrologer', link: '/call' },
       { name: 'Live Sessions', link: '/live' },
+      { name: 'AI Assistant', link: '/chat/assistant' },
     ],
   },
   {
@@ -451,7 +452,7 @@ export default function Navbar() {
             </button>
 
             {/* User avatar */}
-            <button
+            <Link href="/dashboard"
               className="flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full transition cursor-pointer overflow-hidden"
               style={{
                 background: 'var(--accent-purple)',
@@ -463,7 +464,7 @@ export default function Navbar() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
